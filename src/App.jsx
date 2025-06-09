@@ -10,7 +10,11 @@ function App() {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(false);
   const [videos, setVideos] = useState([]);
+  const [showText, setShowText] = useState(false);
 
+  const handleClick = () => {
+    setShowText(!showText); // toggle visibility
+  };
   const addCityToDB = async () => {
     if (!city.trim()) {
       alert("Please enter a city before adding.");
@@ -203,9 +207,26 @@ function App() {
   };
 
   return (
+    
+    
     <div style={{ padding: '2rem' }}>
       <h1>🌤️ Weather App by <a href="https://www.linkedin.com/in/hardik-sondhi-867879324/">Hardik [Harry] </a> <a href="https://github.com/HardikVIT?tab=repositories">[GitHub]</a></h1>
-      <h2><button onClick={null} disabled={loading} style={{ marginTop: '1rem' }}>pmaccelerator</button><a href="https://www.linkedin.com/school/pmaccelerator/posts/?feedView=all">[LinkedIN]</a></h2>
+      <h2>
+        <div>
+          <button onClick={handleClick}>pmaccelerator</button>
+
+          {showText && (
+            <div style={{ marginTop: '10px', color: 'white' }}>
+              <p><i>PMAccelerator – Bridging Tech & Product Mastery
+PMAccelerator is a cutting-edge platform focused on equipping aspiring and early-career product managers with the technical acumen, data-driven mindset, and tools of modern product development. Through real-world simulations, mentorship, and industry-aligned projects, PMAccelerator prepares professionals to excel in tech-first product environments.
+
+Beyond tech, the platform fosters holistic growth by strengthening communication, leadership, and strategic thinking, helping PMs drive innovation and impact across cross-functional teams in any industry.</i>
+              </p>
+            </div>
+          )}
+        </div>
+        <a href="https://www.linkedin.com/school/pmaccelerator/posts/?feedView=all">[LinkedIN]</a>
+      </h2>
       
 
       <form
