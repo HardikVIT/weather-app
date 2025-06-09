@@ -5,11 +5,12 @@ console.log("Loaded Key:", API_KEY);
 
 function App() {
   const [city, setCity] = useState('');
+  const [date, setDate] = useState('');
   const [weather, setWeather] = useState(null);
   const [forecast, setForecast] = useState([]);
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(false);
-  const Dates = new Date();
+  const [videos, setVideos] = useState([]);
 
   const addCityToDB = async () => {
     if (!city.trim()) {
@@ -30,7 +31,7 @@ function App() {
           t4: forecast[3].main.temp,
           t5: forecast[4].main.temp,
           description: weather.weather[0].description,
-          date: Dates,
+          date: date,
         }),
         
       });
@@ -89,6 +90,8 @@ function App() {
         return;
       }
       setWeather(data);
+      fetchYouTubeVideos(data.name+"weather");
+
 
       console.log("Fetching 5-day forecast for:", city);
       const forecastRes = await fetch(
@@ -112,7 +115,20 @@ function App() {
       setLoading(false);
     }
   };
-
+  const fetchYouTubeVideos = async (searchTerm) => {
+    const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
+    try {
+      const res = await fetch(
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
+          searchTerm
+        )}&type=video&key=${YOUTUBE_API_KEY}&maxResults=3`
+      );
+      const data = await res.json();
+      setVideos(data.items || []);
+    } catch (err) {
+      console.error("YouTube fetch error:", err);
+    }
+  };
   const getLocationWeather = () => {
     if (!navigator.geolocation) {
       alert("Geolocation not supported.");
@@ -139,6 +155,7 @@ function App() {
           }
 
           setCity(data.name);
+          fetchYouTubeVideos(data.name+"weather");
           setWeather(data);
 
           const forecastRes = await fetch(
@@ -183,6 +200,13 @@ function App() {
           placeholder="Enter city or ZIP"
           value={city}
           onChange={(e) => setCity(e.target.value)}
+          disabled={loading}
+        />
+        <input
+          type="Date"
+          placeholder="Enter Date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
           disabled={loading}
         />
         <button type="submit" disabled={loading}>
@@ -276,6 +300,42 @@ function App() {
           </div>
         </div>
       )}
+      <br /><br />
+      <h1>Maps</h1>
+      {city && (
+        <iframe
+          title="Map"
+          width="100%"
+          height="300"
+          frameBorder="0"
+          style={{ marginTop: '1rem', border: 0 }}
+          src={`https://www.google.com/maps?q=${encodeURIComponent(city)}&output=embed`}
+          allowFullScreen
+        ></iframe>
+      )}
+
+      <br /><br />
+      <h1>Youtube</h1>
+      {videos.length > 0 && (
+        <div>
+          <h3>YouTube Videos about Weather{city}</h3>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {videos.map((video) => (
+              <iframe
+                key={video.id.videoId}
+                width="300"
+                height="200"
+                src={`https://www.youtube.com/embed/${video.id.videoId}`}
+                title={video.snippet.title}
+                frameBorder="0"
+                allowFullScreen
+              ></iframe>
+            ))}
+          </div>
+        </div>
+      )}
+
+
     </div>
   );
 }
