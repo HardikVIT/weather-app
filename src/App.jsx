@@ -17,13 +17,18 @@ function App() {
       return;
     }
     try {
-      alert(weather.main.temp)
+      alert(forecast[0].main.temp)
       const res = await fetch('http://localhost:5000/api/weather/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: city.trim(),
           temperature: weather.main.temp,
+          t1: forecast[0].main.temp,
+          t2: forecast[1].main.temp,
+          t3: forecast[2].main.temp,
+          t4: forecast[3].main.temp,
+          t5: forecast[4].main.temp,
           description: weather.weather[0].description,
           date: Dates,
         }),
@@ -206,6 +211,11 @@ function App() {
                 {/* List all the keys you want to show as columns */}
                 <th>City</th>
                 <th>Temperature (°C)</th>
+                <th>Next Day</th>
+                <th>Day 2</th>
+                <th>Day 3</th>
+                <th>Day 4</th>
+                <th>Day 5</th>
                 <th>Description</th>
                 <th>Date</th>
                 <th>Actions</th>
@@ -216,6 +226,11 @@ function App() {
                 <tr key={rec.name}>
                   <td>{rec.name}</td>
                   <td>{rec.temperature}</td>
+                  <td>{rec.t1}</td>
+                  <td>{rec.t2}</td>
+                  <td>{rec.t3}</td>
+                  <td>{rec.t4}</td>
+                  <td>{rec.t5}</td>
                   <td>{rec.description}</td>
                   <td>{rec.date}</td>
                   <td>
