@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 console.log("Loaded Key:", API_KEY);
 
@@ -129,6 +128,24 @@ function App() {
       console.error("YouTube fetch error:", err);
     }
   };
+  const exportToCSV = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/api/weather/export/csv');
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+  
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "weather_data.csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("CSV export failed:", err);
+      alert("Could not export CSV");
+    }
+  };  
   const getLocationWeather = () => {
     if (!navigator.geolocation) {
       alert("Geolocation not supported.");
@@ -187,7 +204,9 @@ function App() {
 
   return (
     <div style={{ padding: '2rem' }}>
-      <h1>🌤️ Weather App</h1>
+      <h1>🌤️ Weather App by <a href="https://www.linkedin.com/in/hardik-sondhi-867879324/">Hardik [Harry] </a> <a href="https://github.com/HardikVIT?tab=repositories">[GitHub]</a></h1>
+      <h2><button onClick={null} disabled={loading} style={{ marginTop: '1rem' }}>pmaccelerator</button><a href="https://www.linkedin.com/school/pmaccelerator/posts/?feedView=all">[LinkedIN]</a></h2>
+      
 
       <form
         onSubmit={(e) => {
@@ -209,9 +228,11 @@ function App() {
           onChange={(e) => setDate(e.target.value)}
           disabled={loading}
         />
+        <br />
         <button type="submit" disabled={loading}>
           {loading ? 'Loading...' : 'Search'}
         </button>
+        <button onClick={getLocationWeather} disabled={loading} style={{ marginTop: '1rem' }}>Use My Location</button>
       </form>
 
       <div style={{ marginTop: '1rem' }}>
@@ -221,11 +242,8 @@ function App() {
         <button onClick={fetchRecords} disabled={loading}>
           Show Records
         </button>
+        <button onClick={exportToCSV} disabled={loading} style={{ marginTop: '1rem' }}>📄 Export to CSV</button>
       </div>
-
-      <button onClick={getLocationWeather} disabled={loading} style={{ marginTop: '1rem' }}>
-        Use My Location
-      </button>
       {records.length > 0 && (
         <div style={{ marginTop: '1rem' }}>
           <h3>Stored Weather Records</h3>
@@ -334,6 +352,8 @@ function App() {
           </div>
         </div>
       )}
+
+
 
 
     </div>

@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const { Parser } = require('json2csv');
 require('dotenv').config();
 
 const City = require('./models/City'); // Your Mongoose model for City
@@ -8,7 +9,26 @@ const City = require('./models/City'); // Your Mongoose model for City
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.get('/api/weather/export/csv', async (req, res) => {
+  try {
+    const cities = await City.find().lean();
 
+    if (!cities.length) {
+      return res.status(404).send('No data to export');
+    }
+
+    const fields = Object.keys(cities[0]);
+    const parser = new Parser({ fields });
+    const csv = parser.parse(cities);
+
+    res.header('Content-Type', 'text/csv');
+    res.attachment('weather_data.csv');
+    res.send(csv);
+  } catch (err) {
+    console.error('CSV Export Error:', err);
+    res.status(500).send('Failed to export CSV');
+  }
+});
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
