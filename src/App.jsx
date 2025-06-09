@@ -22,7 +22,7 @@ function App() {
         body: JSON.stringify({ name: city.trim() }),
       });
       const data = await res.json();
-      alert("city has been added to the record");
+      alert("City has been added to the record");
     } catch (err) {
       console.error("Error adding city:", err);
       alert("Failed to add city.");
@@ -189,27 +189,39 @@ function App() {
       <button onClick={getLocationWeather} disabled={loading} style={{ marginTop: '1rem' }}>
         Use My Location
       </button>
-
       {records.length > 0 && (
         <div style={{ marginTop: '1rem' }}>
-          <h3>Stored Cities</h3>
-          <ul>
-            {records.map((rec, i) => (
-              <li key={i}>
-                {rec.name}{' '}
-                <button
-                  onClick={() => deleteCity(rec.name)}
-                  style={{ marginLeft: '10px' }}
-                  disabled={loading}
-                >
-                  Delete
-                </button>
-              </li>
-            ))}
-          </ul>
+          <h3>Stored Weather Records</h3>
+          <table border="1" cellPadding="8" style={{ borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                {/* List all the keys you want to show as columns */}
+                <th>City</th>
+                <th>Temperature (°C)</th>
+                {/* <th>Wind Speed (m/s)</th> */}
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {records.map((rec) => (
+                <tr key={rec.name}>
+                  <td>{rec.name}</td>
+                  <td>{rec.temp ?? rec.main?.temp ?? '-'}</td>
+                  {/* <td>{rec.windSpeed ?? rec.wind?.speed ?? '-'}</td> */}
+                  <td>
+                    <button
+                      onClick={() => deleteCity(rec.name)}
+                      disabled={loading}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
-
       {weather && (
         <div style={{ marginTop: '1rem' }}>
           <h2>{weather.name}</h2>

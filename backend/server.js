@@ -17,45 +17,46 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log('MongoDB connected successfully'))
 .catch((err) => {
   console.error('MongoDB connection error:', err);
-  process.exit(1); 
+  process.exit(1);
 });
 
-// Routes
+// POST /api/weather/add - Add a new city with forecast
 app.post('/api/weather/add', async (req, res) => {
-    try {
-        const city = new City(req.body);
-        await city.save();
-        res.status(201).json(city);
-    } catch (err) {
-        console.error('Saving error:', err);
-        res.status(500).json({ error: 'Saving failed' });
-    }
+  try {
+    const city = new City(req.body);
+    await city.save();
+    res.status(201).json(city);
+  } catch (err) {
+    console.error('Saving error:', err);
+    res.status(500).json({ error: 'Saving failed' });
+  }
 });
 
+// GET /api/weather - Get all saved cities with forecast
 app.get('/api/weather', async (req, res) => {
-    try {
-        const cities = await City.find();
-        res.json(cities);
-    } catch (err) {
-        console.error('Fetching error:', err);
-        res.status(500).json({ error: 'Fetching failed' });
-    }
+  try {
+    const cities = await City.find();
+    res.json(cities);
+  } catch (err) {
+    console.error('Fetching error:', err);
+    res.status(500).json({ error: 'Fetching failed' });
+  }
 });
 
+// DELETE /api/weather/:name - Delete city by name
 app.delete('/api/weather/:name', async (req, res) => {
-    try {
-        const { name } = req.params;
-        const deleted = await City.findOneAndDelete({ name });
-        if (!deleted) {
-        return res.status(404).json({ error: 'City not found' });
-        }
-        res.json({ message: 'City deleted successfully' });
-    } catch (err) {
-        console.error('Deleting error:', err);
-        res.status(500).json({ error: 'Deleting failed' });
+  try {
+    const { name } = req.params;
+    const deleted = await City.findOneAndDelete({ name });
+    if (!deleted) {
+      return res.status(404).json({ error: 'City not found' });
     }
+    res.json({ message: 'City deleted successfully' });
+  } catch (err) {
+    console.error('Deleting error:', err);
+    res.status(500).json({ error: 'Deleting failed' });
+  }
 });
-
 
 // Start server
 const PORT = process.env.PORT || 5000;
