@@ -25,7 +25,7 @@ app.post('/api/weather/add', async (req, res) => {
   try {
     const city = new City(req.body);
     await city.save();
-    res.status(201).json(city);
+    res.status(201).json(city); 
   } catch (err) {
     console.error('Saving error:', err);
     res.status(500).json({ error: 'Saving failed' });

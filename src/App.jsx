@@ -9,6 +9,7 @@ function App() {
   const [forecast, setForecast] = useState([]);
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(false);
+  const Dates = new Date();
 
   const addCityToDB = async () => {
     if (!city.trim()) {
@@ -16,10 +17,17 @@ function App() {
       return;
     }
     try {
+      alert(weather.main.temp)
       const res = await fetch('http://localhost:5000/api/weather/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: city.trim() }),
+        body: JSON.stringify({
+          name: city.trim(),
+          temperature: weather.main.temp,
+          description: weather.weather[0].description,
+          date: Dates,
+        }),
+        
       });
       const data = await res.json();
       alert("City has been added to the record");
@@ -198,7 +206,8 @@ function App() {
                 {/* List all the keys you want to show as columns */}
                 <th>City</th>
                 <th>Temperature (°C)</th>
-                {/* <th>Wind Speed (m/s)</th> */}
+                <th>Description</th>
+                <th>Date</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -206,8 +215,9 @@ function App() {
               {records.map((rec) => (
                 <tr key={rec.name}>
                   <td>{rec.name}</td>
-                  <td>{rec.temp ?? rec.main?.temp ?? '-'}</td>
-                  {/* <td>{rec.windSpeed ?? rec.wind?.speed ?? '-'}</td> */}
+                  <td>{rec.temperature}</td>
+                  <td>{rec.description}</td>
+                  <td>{rec.date}</td>
                   <td>
                     <button
                       onClick={() => deleteCity(rec.name)}
