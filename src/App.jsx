@@ -22,7 +22,7 @@ function App() {
     }
     try {
       alert(forecast[0].main.temp)
-      const res = await fetch('http://weather-app-backend-ruddy.vercel.app/api/weather/add', {
+      const res = await fetch('https://weather-app-backend-ruddy.vercel.app/api/weather/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -48,7 +48,7 @@ function App() {
 
   const fetchRecords = async () => {
     try {
-      const res = await fetch('http://weather-app-backend-ruddy.vercel.app/weather');
+      const res = await fetch('https://weather-app-backend-ruddy.vercel.app/weather');
       const data = await res.json();
       setRecords(data);
     } catch (err) {
@@ -59,7 +59,7 @@ function App() {
 
   const deleteCity = async (name) => {
     try {
-      const res = await fetch(`http://weather-app-backend-ruddy.vercel.app/weather/${encodeURIComponent(name)}`, {
+      const res = await fetch(`https://weather-app-backend-ruddy.vercel.app/weather/${encodeURIComponent(name)}`, {
         method: 'DELETE',
       });
       const data = await res.json();
@@ -134,7 +134,7 @@ function App() {
   };
   const exportToCSV = async () => {
     try {
-      const res = await fetch('http://weather-app-backend-ruddy.vercel.app/weather/export/csv');
+      const res = await fetch('https://weather-app-backend-ruddy.vercel.app/weather/export/csv');
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
   
