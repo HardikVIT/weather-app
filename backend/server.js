@@ -76,6 +76,12 @@ app.delete('/api/weather/:name', async (req, res) => {
     res.status(500).json({ error: 'Deleting failed' });
   }
 });
+app.get('/', (req, res) => {
+  res.send({
+    activeStatus: true,
+    error: false,
+  });
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
