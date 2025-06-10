@@ -9,7 +9,7 @@ const City = require('./models/City'); // Your Mongoose model for City
 const app = express();
 app.use(cors({
   origin:[
-    "https://weather-app-backend-ruddy.vercel.app/",
+    "https://weather-app-frontend-lovat.vercel.app/",
     "http://localhost:3000"
   ]
 }));
