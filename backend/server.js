@@ -76,6 +76,74 @@ app.delete('/api/weather/:name', async (req, res) => {
     res.status(500).json({ error: 'Deleting failed' });
   }
 });
+app.get('/', (req, res) => {
+  res.send({
+    activeStatus: true,
+    error: false,
+  });
+});
+app.delete('/api/weather/:name', async (req, res) => {
+  try {
+    const { name } = req.params;
+    const deleted = await City.findOneAndDelete({ name });
+
+    if (!deleted) {
+      return res.status(404).json({
+        activeStatus: false,
+        error: true,
+        message: 'City not found'
+      });
+    }
+
+    res.json({
+      activeStatus: true,
+      error: false,
+      message: 'City deleted successfully'
+    });
+  } catch (err) {
+    console.error('Deleting error:', err);
+    res.status(500).json({
+      activeStatus: false,
+      error: true,
+      message: 'Deleting failed'
+    });
+  }
+});
+
+app.put('/api/weather/:name', async (req, res) => {
+  try {
+    const { name } = req.params;
+    const updateData = req.body;
+
+    const updatedCity = await City.findOneAndUpdate(
+      { name },
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedCity) {
+      return res.status(404).json({
+        activeStatus: false,
+        error: true,
+        message: 'City not found'
+      });
+    }
+
+    res.json({
+      activeStatus: true,
+      error: false,
+      data: updatedCity
+    });
+  } catch (err) {
+    console.error('Update error:', err);
+    res.status(500).json({
+      activeStatus: false,
+      error: true,
+      message: 'Update failed'
+    });
+  }
+});
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
