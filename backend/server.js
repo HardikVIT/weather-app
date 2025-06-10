@@ -7,12 +7,7 @@ require('dotenv').config();
 const City = require('./models/City'); // Your Mongoose model for City
 
 const app = express();
-app.use(cors({
-  origin:[
-    "https://weather-app-frontend-lovat.vercel.app/",
-    "http://localhost:3000"
-  ]
-}));
+app.use(cors());
 app.use(express.json());
 app.get('/api/weather/export/csv', async (req, res) => {
   try {
