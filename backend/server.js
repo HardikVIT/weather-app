@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const { Parser } = require('json2csv');
 require('dotenv').config();
+const serverless = require('serverless-http');
 
 const City = require('./models/City'); // Your Mongoose model for City
 
@@ -79,5 +80,5 @@ app.delete('/api/weather/:name', async (req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+module.exports = serverless(app);
+
