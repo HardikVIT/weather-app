@@ -7,9 +7,7 @@ require('dotenv').config();
 const City = require('./models/City'); // Your Mongoose model for City
 
 const app = express();
-app.use(cors({
-  origin:["https://weather-app-frontend-nu-nine.vercel.app/"]
-}));
+app.use(cors());
 app.use(express.json());
 app.get('/api/weather/export/csv', async (req, res) => {
   try {
@@ -77,12 +75,6 @@ app.delete('/api/weather/:name', async (req, res) => {
     console.error('Deleting error:', err);
     res.status(500).json({ error: 'Deleting failed' });
   }
-});
-app.get('/', (req, res) => {
-  res.send({
-    activeStatus: true,
-    error: false,
-  });
 });
 
 const PORT = process.env.PORT || 5000;
