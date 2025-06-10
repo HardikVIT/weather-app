@@ -9,7 +9,7 @@ const City = require('./models/City'); // Your Mongoose model for City
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.get('https://weather-app-backend-ruddy.vercel.app/api/weather/export/csv', async (req, res) => {
+app.get('/api/weather/export/csv', async (req, res) => {
   try {
     const cities = await City.find().lean();
 
@@ -40,7 +40,7 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 // POST /api/weather/add - Add a new city with forecast
-app.post('https://weather-app-backend-ruddy.vercel.app/api/weather/add', async (req, res) => {
+app.post('/api/weather/add', async (req, res) => {
   try {
     const city = new City(req.body);
     await city.save();
@@ -52,7 +52,7 @@ app.post('https://weather-app-backend-ruddy.vercel.app/api/weather/add', async (
 });
 
 // GET /api/weather - Get all saved cities with forecast
-app.get('https://weather-app-backend-ruddy.vercel.app/api/weather', async (req, res) => {
+app.get('/api/weather', async (req, res) => {
   try {
     const cities = await City.find();
     res.json(cities);
@@ -63,7 +63,7 @@ app.get('https://weather-app-backend-ruddy.vercel.app/api/weather', async (req, 
 });
 
 // DELETE /api/weather/:name - Delete city by name
-app.delete('https://weather-app-backend-ruddy.vercel.app/api/weather/:name', async (req, res) => {
+app.delete('/api/weather/:name', async (req, res) => {
   try {
     const { name } = req.params;
     const deleted = await City.findOneAndDelete({ name });
@@ -75,12 +75,6 @@ app.delete('https://weather-app-backend-ruddy.vercel.app/api/weather/:name', asy
     console.error('Deleting error:', err);
     res.status(500).json({ error: 'Deleting failed' });
   }
-});
-app.get('/', (req, res) => {
-  res.send({
-    activeStatus: true,
-    error: false,
-  });
 });
 
 const PORT = process.env.PORT || 5000;
