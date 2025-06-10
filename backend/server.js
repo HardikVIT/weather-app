@@ -82,6 +82,20 @@ app.get('/', (req, res) => {
     error: false,
   });
 });
+app.post('/', (req, res) => {
+  res.send({
+    activeStatus: true,
+    error: false,
+  });
+});
+
+// New DELETE route
+app.delete('/', (req, res) => {
+  res.send({
+    activeStatus: true,
+    error: false,
+  });
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
