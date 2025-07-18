@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './App.css';
 const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 console.log("Loaded Key:", API_KEY);
 
