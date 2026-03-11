@@ -2,18 +2,31 @@ body{
   margin:0;
   font-family:Segoe UI;
   background:url("download.jpg") center/cover fixed;
-}
 
-.page{
   display:flex;
   justify-content:center;
-  padding:50px 20px;
+  align-items:flex-start;
+
+  min-height:100vh;
 }
+
+/* MAIN PAGE */
+
+.page{
+  width:100%;
+  display:flex;
+  justify-content:center;
+}
+
+/* DASHBOARD CONTAINER */
 
 .dashboard{
 
-  width:950px;
+  width:900px;
+  max-width:95%;
+
   padding:40px;
+  margin-top:60px;
 
   background:rgba(0,0,0,0.6);
   backdrop-filter:blur(12px);
@@ -22,34 +35,45 @@ body{
 
   box-shadow:0 0 30px rgba(0,255,255,0.2);
 
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+
 }
+
+/* TITLE */
 
 h1{
   text-align:center;
   color:#66fcf1;
+  margin-bottom:30px;
 }
+
+/* SEARCH */
 
 .search{
   display:flex;
   justify-content:center;
+  align-items:center;
   gap:10px;
   flex-wrap:wrap;
-  margin-top:20px;
+  width:100%;
 }
 
-input{
+/* INPUT */
 
+input{
   padding:10px;
   border-radius:8px;
   border:1px solid #66fcf1;
 
   background:#1f2833;
   color:white;
-
 }
 
-button{
+/* BUTTON */
 
+button{
   padding:10px 15px;
 
   border:none;
@@ -61,38 +85,39 @@ button{
   cursor:pointer;
 
   transition:0.3s;
-
 }
 
 button:hover{
-
   background:#66fcf1;
   color:black;
-
 }
 
+/* ACTION BUTTONS */
+
 .actions{
+  margin-top:20px;
 
   display:flex;
   justify-content:center;
   gap:10px;
-  margin-top:20px;
+  flex-wrap:wrap;
 
+  width:100%;
 }
 
-.weatherCard{
+/* WEATHER CARD */
 
+.weatherCard{
   text-align:center;
   margin-top:30px;
-
 }
 
 .weatherCard img{
-
   width:90px;
   animation:float 4s infinite;
-
 }
+
+/* FORECAST */
 
 .forecast{
 
@@ -100,8 +125,9 @@ button:hover{
   justify-content:center;
   flex-wrap:wrap;
   gap:15px;
-  margin-top:20px;
 
+  margin-top:20px;
+  width:100%;
 }
 
 .forecastCard{
@@ -114,35 +140,41 @@ button:hover{
   width:120px;
 
   box-shadow:0 0 10px rgba(0,255,255,0.2);
-
 }
+
+/* MAP */
 
 iframe{
 
   width:100%;
   height:300px;
+
   border:none;
   border-radius:12px;
-  margin-top:20px;
 
+  margin-top:20px;
 }
+
+/* VIDEOS */
 
 .videos{
 
   display:flex;
-  gap:15px;
-  flex-wrap:wrap;
   justify-content:center;
+  flex-wrap:wrap;
+
+  gap:15px;
   margin-top:20px;
 
+  width:100%;
 }
 
 .videos iframe{
-
   width:300px;
   height:200px;
-
 }
+
+/* TABLE */
 
 table{
 
@@ -150,7 +182,6 @@ table{
   margin-top:30px;
 
   border-collapse:collapse;
-
 }
 
 th,td{
@@ -158,28 +189,29 @@ th,td{
   border:1px solid #45a29e;
   padding:8px;
   text-align:center;
-
 }
 
 th{
-
   background:#0b0c10;
   color:#66fcf1;
-
 }
+
+/* WEATHER FLOAT ANIMATION */
 
 @keyframes float{
 
-  0%{transform:translateY(0);}
-  50%{transform:translateY(-10px);}
-  100%{transform:translateY(0);}
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+  100%{transform:translateY(0)}
 
 }
+
+/* MOBILE */
 
 @media(max-width:768px){
 
   .dashboard{
-    width:95%;
+    padding:25px;
   }
 
   .search{
